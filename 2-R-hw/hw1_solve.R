@@ -1,0 +1,11 @@
+t = read.csv('hw1_data.csv')
+head(t)
+nrow(t)
+tail(t)
+t[47,]
+sum(is.na(t$Ozone))
+mean(t$Ozone, na.rm = T)
+#mean(t[t$Ozone>31 & t$Temp>90 & !is.na(t$Ozone) & !is.na(t$Temp),]$Solar.R)
+mean(t$Solar.R[t$Ozone>31 & t$Temp>90],na.rm=T)
+mean(t$Temp[t$Month==6],na.rm=T)
+max(t$Ozone[t$Month==5],na.rm = T)
