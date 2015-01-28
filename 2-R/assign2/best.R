@@ -60,6 +60,8 @@ best <- function(state, outcome) {
 # test functionality of this module
 # None -> None
 test_best = function(){
+    # library('testthat')
+    # source('best.R'); test_best()
     test_that('input validation works', {
         expect_error(best("BB", "heart attack"), ERROR_INV_STATE)
         expect_error(best("NY", "hert attack"), ERROR_INV_OUTCOME)        
@@ -73,8 +75,3 @@ test_best = function(){
     })
 }
 
-if (getOption('run.test', default=F)){
-    # do test if options(run.test=True) is set before run
-    library('testthat')
-    test_best()
-}
