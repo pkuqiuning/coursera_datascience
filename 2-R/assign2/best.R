@@ -85,3 +85,9 @@ test_best = function(){
     })
 }
 
+
+if (getOption('run.test', default=F)){
+    # do test if options(run.test=True) is set before run
+    library('testthat')
+    test_best()
+}

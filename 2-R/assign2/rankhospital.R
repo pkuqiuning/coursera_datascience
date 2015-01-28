@@ -9,8 +9,9 @@ is.Rank = function(num) (num %in% list('best', 'worst')) | is.numeric(num)
 
 
 # rank hospital on good dataset
-# Dataset, Rank -> String
-my_rankhospital = function(data, mort_col, num = 'best'){
+# Dataset, Condition, Rank -> String
+my_rankhospital = function(data, condition, num = 'best'){
+    mort_col = MORTALITY_COL_LOOKUP[[condition]]
     ordered_data = order(data[[mort_col]], data$Hospital.Name)
     if (num == 'best'){
         num = 1
@@ -35,18 +36,16 @@ rankhospital <- function(state, outcome, num = "best") {
     if (! is.Condition(outcome)) stop(ERROR_INV_OUTCOME)
     if (! is.Rank(num)) stop('wrong num rank type')
     
-    mort_col = MORTALITY_COL_LOOKUP[[outcome]]
-    
     ## Read outcome data
-    alldata <- read.csv(OUTCOME_FILE, colClasses = "character")
-    alldata[,mort_col] = as.numeric(alldata[,mort_col])
-    
-    # only rank in given state and clinical condition, with valid mortality
-    data = alldata[alldata$State == state & ! is.na(alldata[[mort_col]]), ]
+    alldata = read_data(OUTCOME_FILE, outcome)
+
+    # only rank in given state 
+    data = alldata[alldata$State == state, ]
     
     # sort 30-day mortality
-    my_rankhospital(data, mort_col, num) 
+    my_rankhospital(data, outcome, num) 
 }
+
 
 # test functionality of this module
 # None -> None
@@ -71,4 +70,9 @@ test_rankhospital = function(){
     })
 }
 
+if (getOption('run.test', default=F)){
+    # do test if options(run.test=True) is set before run
+    library('testthat')
+    test_rankhospital()
+}
  
