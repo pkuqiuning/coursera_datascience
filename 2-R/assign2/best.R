@@ -37,14 +37,17 @@ best <- function(state, outcome) {
     ## Check that state and outcome are valid
     if (! outcome %in% CONDITION_LIST) stop(ERROR_INV_OUTCOME)
     if (! state %in% STATES_LIST) stop(ERROR_INV_STATE)
+   
+    mort_col = MORTALITY_COL_LOOKUP[[outcome]]
     
     ## Read outcome data
     alldata <- read.csv(OUTCOME_FILE, colClasses = "character")
+    alldata[,mort_col] = as.numeric(alldata[,mort_col])
     
-    # only rank in given state and clinical condition
-    data = alldata[alldata$State == state,]
-    mort_rates = as.numeric(data[[MORTALITY_COL_LOOKUP[[outcome]]]])
-    
+    # only rank in given state and clinical condition, with valid mortality
+    data = alldata[alldata$State == state & ! is.na(alldata[[mort_col]]), ]
+
+    mort_rates = data[[mort_col]]
     # hospital names in that state with lowest 30-day mortality
     lows = data$Hospital.Name[mort_rates == min(mort_rates, na.rm=1)]
     # select the first hospital according to alphabetical order
