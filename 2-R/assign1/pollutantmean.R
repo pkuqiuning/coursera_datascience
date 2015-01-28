@@ -22,12 +22,3 @@ pollutantmean <- function(directory, pollutant, id = 1:332) {
 }
 
 
-
-library(testthat)
-ERROR = 0.001
-test_that('part1 is correct', {
-    expect_less_than(pollutantmean("data/specdata", "sulfate", 1:10) - 4.064, ERROR)
-    expect_less_than(pollutantmean("data/specdata", "nitrate", 70:72) - 1.706, ERROR)
-    expect_less_than(pollutantmean("data/specdata", "nitrate", 23) - 1.281, ERROR)
-    
-})
