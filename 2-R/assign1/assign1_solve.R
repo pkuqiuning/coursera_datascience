@@ -1,5 +1,5 @@
-DATAFILE = "data/specdata.zip"
-DATA_ROOT_DIR = "data"
+DATAFILE = "specdata.zip"
+DATA_ROOT_DIR = "."
 DATADIR = paste(DATA_ROOT_DIR, 'specdata', sep='/')
 
 # download data
