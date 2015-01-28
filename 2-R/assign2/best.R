@@ -41,20 +41,12 @@ best <- function(state, outcome) {
     ## Read outcome data
     alldata <- read.csv(OUTCOME_FILE, colClasses = "character")
     
-    # only rank in given state
+    # only rank in given state and clinical condition
     data = alldata[alldata$State == state,]
+    mort_rates = as.numeric(data[[MORTALITY_COL_LOOKUP[[outcome]]]])
     
-    # make the column numerical
-    for (idx in MORTALITY_COL_LOOKUP){
-        data[, idx] <- as.numeric(data[, idx])
-    }    
-    
-    mort_idx = MORTALITY_COL_LOOKUP[[outcome]]
-    # the 30-day mortalities for the given clinical condition
-    mort_rates = data[[mort_idx]]
-    low_morts = which(mort_rates == min(mort_rates, na.rm=1))
     # hospital names in that state with lowest 30-day mortality
-    lows = data$Hospital.Name[low_morts]
+    lows = data$Hospital.Name[mort_rates == min(mort_rates, na.rm=1)]
     # select the first hospital according to alphabetical order
     sort(lows)[[1]]
 }
