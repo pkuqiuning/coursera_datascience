@@ -47,3 +47,23 @@ test_that('part2 is correct', {
     )
 })
 
+source('corr.R')
+test_that('part3 correct', {
+    
+    cr <- corr("data/specdata", 150)
+    expect_output(head(cr), '-0.01896 -0.14051 -0.04390 -0.06816 -0.12351 -0.07589 ')
+    expect_output(summary(cr), '-0.2110 -0.0500  0.0946  0.1250  0.2680  0.7630')
+    
+    cr <- corr("data/specdata", 400)
+    expect_output(head(cr), '-0.01896 -0.04390 -0.06816 -0.07589  0.76313 -0.15783')
+    expect_output(summary(cr), '-0.1760 -0.0311  0.1000  0.1400  0.2680  0.7630')
+    
+    
+    cr <- corr("data/specdata", 5000)
+    expect_equal(cr, NULL)
+    
+    cr <- corr("data/specdata")
+    expect_output(summary(cr), '-1.0000 -0.0528  0.1070  0.1370  0.2780  1.0000')
+    expect_equal(length(cr), 323)
+})
+    
