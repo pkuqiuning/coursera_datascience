@@ -3,5 +3,6 @@
 .RData
 *~
 *.zip
+*.jpg
 data
 datasciencecoursera
