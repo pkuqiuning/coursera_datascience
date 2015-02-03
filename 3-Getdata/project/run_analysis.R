@@ -17,12 +17,12 @@
 ## Verify data set is available 
 dataDIR = 'UCI HAR Dataset'
 if (!file.exists(dataDIR)){
-	stop('run get_data.R first to get raw data')
+	stop('run get_UCI_HAR_dataset.R first to get raw data')
 }
 setwd(dataDIR)
 
 
-## READ training set and test set
+
 read_dataset = function(surffix) {
 	# change to subdir test
 	setwd(surffix)
@@ -37,8 +37,10 @@ read_dataset = function(surffix) {
 	setwd('..')
 	cbind(X, y, subject)
 }
+print('READ training set and test set...')
 training_set = read_dataset('train')
 test_set = read_dataset('test')
+print('done')
 
 
 # 2. Merge training set and test set
@@ -73,7 +75,8 @@ table2 <- aggregate(. ~ activity + subject, data=table1, FUN=mean)
 
 
 # 4. Write results to disk
-# Write table1 and table2 to disk
+# Write table2 to disk
 setwd('..')
-write.table(table1, 'table1.csv')
-write.table(table2, 'table2.csv')
+new_variables = colnames(table2)
+writeLines(new_variables, 'new_variables.txt')
+write.table(table2, 'result_dataset.txt', row.name=FALSE)

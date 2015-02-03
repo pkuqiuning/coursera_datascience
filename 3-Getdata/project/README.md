@@ -1,29 +1,11 @@
-# Code Book
-# TODO
+# README
+ - README.md - this file
+ - get_UCI_HAR_dataset.R - run this script to get UCI HAR Dataset
+ - run_analysis.R - run this script to process original data set
+ - CodeBook.md - description of the variables of the resulting data set
 
-run_analysis.R is a R script that does the following:
-
-1. Merges the training and the test sets to create one data set.
-2. Extracts only the measurements on the mean and standard deviation for each measurement. 
-3. Uses descriptive activity names to name the activities in the data set
-4. Appropriately labels the data set with descriptive variable names. 
-5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
-
-# Strategy to solve problem
-
-## Problem
-Given UCI HAR Dataset, we are going to extract and clean the data, prepare the code book.
-
-## Objectives
-  - Produce the resulting data sets
-  - Produce the code book
-
-## Strategy
-Read in data, follow instructions step by step, write results back.
-
-## Steps to produce the data sets
-  1. Read data sets
-  2. Merge training set and test set
-  3. Extract and clean resulting data set
-  4. Write results to disk
-
+## USAGE
+- Run source('get_UCI_HAR_dataset.R') in R. It will download and unzip the [UCI HAR Dataset](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones) ([download here](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip)) to a folder named "UCI HAR Dataset".
+- Run the analysis with source('run_analysis.R').
+- The processed data will be write to file "result_dataset.txt"
+- It can be loaded into R with command read.table('result_dataset.txt')
