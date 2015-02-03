@@ -13,7 +13,7 @@ The original data set was separated into training set (8977 observations) and te
 - Features in the test set and the training set were temporarily combined into one single table. Only 66 of them representing mean and standard deviation of original measurements were selected. We then created 66 numerical entries by taking the mean of them grouped by subject and activity. We named them by translating the names of the old features using the following translation table:
 
 In Old Names | In New Names | Meaning                   | Note
--------------|--------------|---------------------------|
+-------------|--------------|---------------------------|---------------------
 t            | t            | Time domain signal        | prefix
 f            | f            | Frequency domain signal   | prefix
 Acc          | Accelerator  | Accelerator measurements  | gravity unit 'g'
