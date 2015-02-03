@@ -3,7 +3,7 @@ We present combined and summarized data set of 180 observations (30 test subject
 
 ## UCI HAR Dataset
 The original data set was separated into training set (8977 observations) and test set (2947 observations) with the following variables: 
-- 651 features: numerical (0, 1)
+- 561 features: numerical (0, 1)
 - subject number: integer (1-30)
 - activity: factor (1-6)
 
