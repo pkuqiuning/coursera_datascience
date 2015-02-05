@@ -19,7 +19,7 @@ ORDER BY key(col9) DESC
 LIMIT 10;
 ```
 ## R
-agg[having, ][order, ][limit]
+aggregate(select ~ group by)[having, ][order, ][limit]
 
 ```R
 aggdata <-aggregate(cbind(col1, col2) ~ col5 + categorize(col6), data=table, FUN=summarize)
@@ -51,6 +51,7 @@ results = selected.groupby(['col5', categorize(selected.col6)]).filter(
 ```
 
 ##In Program using Collectors
+```python
 def get:
 	[]
 	for g in groupby:
@@ -63,7 +64,7 @@ def get:
 	return
 
 results = sorted(get)[limit]
-
+```
 
 ```Python
 def get_answers():
@@ -88,6 +89,7 @@ results = sorted(get_anwser(), reverse=True)[:10]
 
 
 ## In Program using Yield
+```python
 def gen():
 	def do_group(g):
 		for p:
@@ -100,6 +102,8 @@ def gen():
 			
 
 results = sorted(gen)[limit]
+```
+
 ```Python
 def yield_anwsers():
 	def calculate_group(g):
@@ -120,6 +124,11 @@ def yield_anwsers():
 
 results = sorted(yield_anwsers(), reverse=True)[:10]
 ```
+
+
+## In Program vector style
+
+```python
 def gen():
 	for g:
 		y=f(g) # where, having, order by
@@ -127,8 +136,8 @@ def gen():
 			yield select, order by
 
 results = sorted(gen)[limit]
+```
 
-## In Program vector style
 ```Python
 def yield_anwsers():
 	for g in generate_group(col5, col6, categorize):
