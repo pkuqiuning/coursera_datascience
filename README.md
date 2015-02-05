@@ -8,6 +8,7 @@ http://www.statmethods.net/
 # Compare SQL actions
 
 ## SQL
+SWGHOL, S front
 ```SQL
 SELECT summarize(col1, col2) as newcol
 INTO results
@@ -19,8 +20,8 @@ ORDER BY key(col9) DESC
 LIMIT 10;
 ```
 ## R
+WSGHOL, S second
 aggregate(select ~ group by)[having, ][order, ][limit]
-
 ```R
 aggdata <-aggregate(cbind(col1, col2) ~ col5 + categorize(col6), data=table, FUN=summarize)
 having <-aggregate(cbind(col7, col8) ~ col5 + categorize(col6), data=table, FUN=subcheck)
@@ -29,6 +30,7 @@ aggdata[having, ][order(-order_key), ][1:10]
 ```
 
 ## R using data.table
+WSGHOL
 table[where, select|update, gorup by][having][order by][limit]
 ```R
 table[
@@ -39,6 +41,7 @@ table[
 ```
 
 ## Python using Pandas
+WGHSOL, S middle
 table[where].groupby([]).filter(lambda having).apply(select).sort(order by).head(limit)
 
 ```python
@@ -58,7 +61,7 @@ def get:
 		[][][]
 		for p:
 			if where:
-				append(select, having, order by)
+				append(having, select, order by)
 		if havings:
 			append((selects, order bys))
 	return
@@ -94,7 +97,7 @@ def gen():
 	def do_group(g):
 		for p:
 			if where:
-				yield select, having, order by
+				yield having, select, order by
 	for g:
 		s, h, o = zip(*do_group(g))
 		if having:
