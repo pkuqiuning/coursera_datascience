@@ -19,23 +19,31 @@ ORDER BY key(col9) DESC
 LIMIT 10;
 ```
 ## R
+agg[having, ][order, ][limit]
+
 ```R
 aggdata <-aggregate(cbind(col1, col2) ~ col5 + categorize(col6), data=table, FUN=summarize)
 having <-aggregate(cbind(col7, col8) ~ col5 + categorize(col6), data=table, FUN=subcheck)
 order_key <- aggregate(col9 ~ col5 + categorize(col6), data=table, FUN=key)
-aggdata[having, ][order(-order_key), ]
+aggdata[having, ][order(-order_key), ][1:10]
 ```
 
 ## R using data.table
+table[where, select|update, gorup by][having][order by][limit]
 ```R
-table[check(col3, col4), c('newcol', having_check) := list(summarize(col1, col2), subcheck(col7, col8)), 
-by=(col5, categorize(col6))][having_check][order(-key(col9))][1:10]
+table[
+	check(col3, col4),
+	c('newcol', having_check, key_check) := list(summarize(col1, col2), subcheck(col7, col8), key(col9)), 
+	by=(col5, categorize(col6))
+	][having_check][order(-key_check))][1:10]
 ```
 
 ## Python using Pandas
+table[where].groupby([]).filter(lambda having).apply(select).sort(order by).head(limit)
+
 ```python
 selected = table[check(table.col3, table.col4)]
-results = selected.groupby(['col5', categorize(selected.col6)]).fiter(
+results = selected.groupby(['col5', categorize(selected.col6)]).filter(
     lambda t: subcheck(t.col7, t.col8)
   ).apply(
     lambda t:DataFrame(dict(newcol=summarize(t.col1, t.col2),sortkey=key(t.col9))
@@ -43,6 +51,20 @@ results = selected.groupby(['col5', categorize(selected.col6)]).fiter(
 ```
 
 ##In Program using Collectors
+def get:
+	[]
+	for g in groupby:
+		[][][]
+		for p:
+			if where:
+				append(select, having, order by)
+		if havings:
+			append((selects, order bys))
+	return
+
+results = sorted(get)[limit]
+
+
 ```Python
 def get_answers():
 	results = []
@@ -66,6 +88,18 @@ results = sorted(get_anwser(), reverse=True)[:10]
 
 
 ## In Program using Yield
+def gen():
+	def do_group(g):
+		for p:
+			if where:
+				yield select, having, order by
+	for g:
+		s, h, o = zip(*do_group(g))
+		if having:
+			yield select, order by
+			
+
+results = sorted(gen)[limit]
 ```Python
 def yield_anwsers():
 	def calculate_group(g):
@@ -86,6 +120,13 @@ def yield_anwsers():
 
 results = sorted(yield_anwsers(), reverse=True)[:10]
 ```
+def gen():
+	for g:
+		y=f(g) # where, having, order by
+		if having:
+			yield select, order by
+
+results = sorted(gen)[limit]
 
 ## In Program vector style
 ```Python
