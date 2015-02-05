@@ -6,9 +6,11 @@ Quick R
 http://www.statmethods.net/
 
 # Compare SQL actions
+	- SQL: SWGHOL, S front
+	- R: WSGHOL, S secondWSGHOL
+	- FUNCTION: WGHSOL, S middle
 
 ## SQL
-SWGHOL, S front
 ```SQL
 SELECT summarize(col1, col2) as newcol
 INTO results
@@ -20,7 +22,6 @@ ORDER BY key(col9) DESC
 LIMIT 10;
 ```
 ## R
-WSGHOL, S second
 aggregate(select ~ group by)[having, ][order, ][limit]
 ```R
 aggdata <-aggregate(cbind(col1, col2) ~ col5 + categorize(col6), data=table, FUN=summarize)
@@ -30,7 +31,6 @@ aggdata[having, ][order(-order_key), ][1:10]
 ```
 
 ## R using data.table
-WSGHOL
 table[where, select|update, gorup by][having][order by][limit]
 ```R
 table[
@@ -41,7 +41,6 @@ table[
 ```
 
 ## Python using Pandas
-WGHSOL, S middle
 table[where].groupby([]).filter(lambda having).apply(select).sort(order by).head(limit)
 
 ```python
