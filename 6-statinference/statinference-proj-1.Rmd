@@ -1,0 +1,54 @@
+---
+title: "Investigate the exponential distribution"
+author: "Qiu Ning"
+date: "February 11, 2015"
+output: pdf_document
+---
+
+# Overview
+We simulated 1000 sample means $\bar{X}_i$ of 40 iid random variables from exponential distribution. Their mean, variance, and distribution are compared to the normal distribution to verify Central limit theorem.
+
+
+# Simulation
+We sample 1000x40 random variables(RV) from exponential distribution with parameter $\lambda=0.2$. They are divided into 1000 sets of 40 numbers. The 1000 means of the sets are the sample we are going to research into.
+```{r simulation}
+options(digits=3)
+lambda = 0.2 
+M = 40
+N = 1000
+samples = matrix(rexp(N*M, lambda), N, M)
+means = rowMeans(samples)
+plot(means, pch='.', main='Sample means of 40 iid RV from Exp(0.2)')
+abline(h=5, col='red')
+```
+
+# Sample Parameters versus Theoretical Parameters
+Central Limit Theorem stats that: as $n\to\infty$
+$$ \bar{X}\overset{d}{\sim}N(\mu,\sigma^{2}/n) $$
+In our case, $\mu = \sigma = 1/\lambda$.
+
+```{r char}
+theory_m = 1/lambda
+theory_var = (1/lambda)^2 / M
+
+sample_m = mean(means)
+sample_var = var(means)
+```
+
+Sample mean is `r sample_m`, compare to theoretical mean of `r theory_m`. Sample vairance is `r sample_var`, compare to theoretical variance of `r theory_var`. They are very close.
+
+
+# Distribution
+The distribution of sample means are summarized in the following figure. The dashed purple line is a normal distribution given by Central Limit Therom, which is a close fit for the sample distribution line.
+
+```{r, echo=FALSE}
+
+
+hist(means, freq=F, 
+     main='Distribution of sample means of 40 iid RV from Exp(0.2)')
+lines(density(means), col='blue')
+curve(dnorm(x, theory_m, sqrt(theory_var)), col='purple', lty=2, add=T)
+abline(v=theory_m, col='red', lwd=3)
+legend('topright', c('simulation histogram', 'simulation density', 'theoretic density'), lty=c(1,1, 2), col=c('black', 'blue', 'purple'))
+
+```

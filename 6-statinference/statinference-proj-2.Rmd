@@ -1,0 +1,64 @@
+---
+title: "Analysis of the ToothGrowth Data"
+author: "Qiu Ning"
+date: "February 11, 2015"
+output: pdf_document
+---
+
+# The ToothGrowth Data Set
+The data set measures the length of teeth in each of 10 guinea pigs at each of three dose levels of Vitamin C (0.5, 1, and 2 mg) with each of two delivery methods (orange juice or ascorbic acid).
+
+```{r}
+options(digits=3)
+data("ToothGrowth")
+attach(ToothGrowth)
+ToothGrowth$dose = as.factor(dose)
+#table(ToothGrowth[,c(2,3)])
+par(mfrow=c(2,2))
+boxplot(len ~ supp, main='break down by supp')
+boxplot(len ~ dose, main='break down by dose')
+boxplot(len ~ supp + dose, main='break down by supp and dose')
+interaction.plot(dose, supp, response=len, main='Effect of dose and supp')
+title(main='\nTooth Length vs Supplements and Dose', outer=T)
+```
+
+
+# Comparison of Tooth Growth by Factors
+## Effect of Dosage
+Null hypothesis: higher dosage in case j than i ($dose_i < dose_j$) have no effect or lowers the tooth length
+Alternatie hypothesis: the higher the dosage, the longer the tooth
+$$ H_0: \mu_i \leq \mu_j = 0 $$
+$$ H_a: \mu_i > \mu_j \neq 0$$
+```{r, results='hide'}
+t1 = t.test(len ~ dose, subset= dose %in% c(0.5, 1), alternative='less')
+t2 = t.test(len ~ dose, subset= dose %in% c(1, 2), alternative='less')
+t3 = t.test(len ~ dose, subset= dose %in% c(0.5, 2), alternative='less')
+```
+The p-value for each tests are: $`r t1$p.value`$,  $`r t2$p.value`$, $`r t3$p.value`$. We found convincing evidence that higher the dosage longer the tooth, at 1% significant level.
+
+## Effect of Difference of Supplements
+Null hypothesis: Delivering VC by ascorbic acid is not better than orange juice regarding making tooth grow.
+Alternatie hypothesis: Delivering VC by acscorbic acid is better than orange juice.
+$$ H_0: \mu_{vc} \leq \mu_{oj} = 0 $$
+$$ H_a: \mu_{vc} > \mu_{oj} \neq 0$$
+
+```{r, results='hide'}
+t4 = t.test(len ~ supp)
+```
+The p-value is $`r t4$p.value`$. It seems there is only moderate evidence that delivering VC by ascorbic acide is better than orange juice, at 10% significant level.
+
+If we futher break down the situation by dosage:
+```{r, results='hide'}
+t5 = t.test(len ~ supp, subset= dose==0.5, alternative='greater')
+t6 = t.test(len ~ supp, subset= dose==1, alternative='greater')
+t7 = t.test(len ~ supp, subset= dose==2, alternative='greater')
+```
+The p-value is $`r t5$p.value`$, $`r t6$p.value`$, $`r t7$p.value`$. We have convincing evidence that ascoric acide is better than orange juice only when administrated in lower dosages of 0.5 or 1 mg, where the significant level is 1%. When high dosage of 2mg was used, we cannot say it is the case even at 10% significant level. What is more, the p-value in this case is very high.
+
+# Conclusion
+In this analysis, we found convincing evidence that the higher the dosage administrated, the longer the tooth grows. We also found that in lower dosages of 1 and 2 mg, there is convincing evidence that delivering VC by ascorbic acide is better than orange juice in making tooth grow. However, in highest dosage of 2mg, we can no longer found such an effect.
+
+# Discussion: Our Assumptions
+We need to assume the sample is a good representation of the population and the samples should be independant from each other, which means no bias should be included in the experiment design and all relavent conditions should be controlled in the experiment. 
+
+Additionally, we need to assume that the tooth lengthes are normally distributed in each group. However, we did not assume that the variance is the same.
